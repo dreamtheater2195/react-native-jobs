@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Platform } from 'react-native';
-import { Button } from 'react-native-elements';
+import { ScrollView, Text, Platform, StyleSheet, View, Linking } from 'react-native';
+import { connect } from 'react-redux';
+import { Card, Button } from 'react-native-elements';
+import { MapView } from 'expo';
 class ReviewScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
@@ -18,13 +20,64 @@ class ReviewScreen extends Component {
             }
         };
     }
+
+    renderLikedJobs = () => {
+        return this.props.likedJobs.map((job) => {
+            const { id, company, created_at, url, title } = job;
+            const initialRegion = {
+                latitude: 37.78825,
+                longitude: -122.4324,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
+            return (
+                <Card key={id} title={title}>
+                    <View style={{ height: 200 }}>
+                        <MapView
+                            scrollEnabled={false}
+                            style={{ flex: 1 }}
+                            cacheEnabled={Platform.OS === 'android'}
+                            initialRegion={initialRegion}
+                        >
+                        </MapView>
+                        <View style={styles.detailWrapper}>
+                            <Text style={styles.italics}>{company}</Text>
+                            <Text style={styles.italics}>{created_at}</Text>
+                        </View>
+                        <Button
+                            title="Apply Now"
+                            backgroundColor="#03A9F4"
+                            onPress={() => Linking.openURL(url)}
+                        />
+                    </View>
+                </Card>
+            )
+        })
+    }
     render() {
         return (
-            <View>
-                <Text>ReviewScreen</Text>
-            </View>
+            <ScrollView>
+                {this.renderLikedJobs()}
+            </ScrollView>
         )
     }
 }
 
-export default ReviewScreen;
+const styles = StyleSheet.create({
+    detailWrapper: {
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 10
+    },
+    italics: {
+        fontStyle: 'italic'
+    }
+})
+
+const mapStateToProps = (state) => {
+    return {
+        likedJobs: state.likes
+    }
+}
+export default connect(mapStateToProps)(ReviewScreen);
