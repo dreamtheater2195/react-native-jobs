@@ -4,7 +4,8 @@ import qs from 'qs';
 import {
     FETCH_JOBS_SUCCESS,
     FETCH_JOBS_FAIL,
-    LIKE_JOB
+    LIKE_JOB,
+    CLEAR_LIKED_JOBS
 } from './types';
 
 const JOB_ROOT_URL = 'https://jobs.github.com/positions.json?';
@@ -41,5 +42,11 @@ export const likeJob = (job) => {
     return {
         type: LIKE_JOB,
         payload: job
+    }
+}
+
+export const clearLikedJobs = () => {
+    return {
+        type: CLEAR_LIKED_JOBS
     }
 }

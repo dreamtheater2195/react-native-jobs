@@ -26,13 +26,17 @@ export default class App extends React.Component {
               settings: { screen: SettingScreen }
             })
           }
-        })
+        }, {
+            tabBarPosition: 'bottom',
+            tabBarOptions: {
+              labelStyle: { fontSize: 12 }
+            }
+          })
       }
     }, {
         navigationOptions: {
           tabBarVisible: false
-        },
-        lazy: true
+        }
       });
     return (
       <Provider store={store}>
