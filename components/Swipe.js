@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Animated, PanResponder, Dimensions, LayoutAnimation, UIManager, Platform } from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 const SWIPE_OUT_DURATION = 250;
 class Swipe extends Component {
@@ -95,9 +96,8 @@ class Swipe extends Component {
                     <Animated.View
                         key={item[this.props.keyProp]}
                         style={[this.getCardStyle(), styles.cardStyle]}
-                        {...this.state.panResponder.panHandlers}
                     >
-                        {this.props.renderCard(item)}
+                        {this.props.renderCard(item, this.state.panResponder.panHandlers)}
                     </Animated.View>
                 )
             }
@@ -105,7 +105,7 @@ class Swipe extends Component {
                 <Animated.View
                     key={item[this.props.keyProp]}
                     style={[styles.cardStyle, { top: 10 * (index - this.state.currentIndex), zIndex: -index }]}>
-                    {this.props.renderCard(item)}
+                    {this.props.renderCard(item, this.state.panResponder.panHandlers)}
                 </Animated.View>
             )
         });

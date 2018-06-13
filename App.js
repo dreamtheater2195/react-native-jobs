@@ -11,6 +11,22 @@ import DeckScreen from './screens/DeckScreen';
 import SettingScreen from './screens/SettingScreen';
 import ReviewScreen from './screens/ReviewScreen';
 import registerForNotificationsAsync from './services/push_notifications';
+import { Icon } from 'react-native-elements';
+
+const ScreenNavigationOption = ({ navigation }) => ({
+  tabBarIcon: ({ focused, tintColor }) => {
+    const { routeName } = navigation.state;
+    let iconName;
+    if (routeName === 'review') {
+      iconName = 'favorite';
+    } else if (routeName === 'map') {
+      iconName = 'my-location';
+    } else if (routeName === 'deck') {
+      iconName = 'list';
+    }
+    return <Icon name={iconName} size={30} color={tintColor} />;
+  }
+});
 
 export default class App extends React.Component {
   async componentDidMount() {
@@ -34,13 +50,14 @@ export default class App extends React.Component {
             screen: createStackNavigator({
               review: { screen: ReviewScreen },
               settings: { screen: SettingScreen }
-            })
+            }),
           }
         }, {
             tabBarPosition: 'bottom',
             tabBarOptions: {
               labelStyle: { fontSize: 12 }
-            }
+            },
+            navigationOptions: ScreenNavigationOption
           })
       }
     }, {

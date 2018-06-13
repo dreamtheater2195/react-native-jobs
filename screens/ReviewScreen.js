@@ -3,6 +3,7 @@ import { ScrollView, Text, Platform, StyleSheet, View, Linking } from 'react-nat
 import { connect } from 'react-redux';
 import { Card, Button } from 'react-native-elements';
 import { MapView } from 'expo';
+import moment from 'moment';
 class ReviewScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
@@ -42,7 +43,9 @@ class ReviewScreen extends Component {
                         </MapView>
                         <View style={styles.detailWrapper}>
                             <Text style={styles.italics}>{company}</Text>
-                            <Text style={styles.italics}>{created_at}</Text>
+                            <Text style={styles.italics}>
+                                {moment(created_at, "ddd MMM DD hh:mm:ss z YYYY").fromNow()}
+                            </Text>
                         </View>
                         <Button
                             title="Apply Now"

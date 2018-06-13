@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Swipe from '../components/Swipe';
 import { MapView } from 'expo';
-import { Card, Button } from 'react-native-elements';
+import { Card, Button, Icon } from 'react-native-elements';
 import * as actions from '../actions';
+import moment from 'moment';
 class DeckScreen extends Component {
 
-    renderCard = (job) => {
+    renderCard = (job, panHandlers) => {
         const { title, company, created_at, description } = job;
         const initialRegion = {
             latitude: 37.78825,
@@ -17,20 +18,22 @@ class DeckScreen extends Component {
         }
         return (
             <Card title={title}>
-                <View style={{ height: 300 }}>
-                    <MapView
-                        scrollEnabled={false}
-                        style={{ flex: 1 }}
-                        cacheEnabled={Platform.OS === 'android'}
-                        initialRegion={initialRegion}
-                    >
-                    </MapView>
+                <View {...panHandlers}>
+                    <View style={{ height: 300 }}>
+                        <MapView
+                            scrollEnabled={false}
+                            style={{ flex: 1 }}
+                            cacheEnabled={Platform.OS === 'android'}
+                            initialRegion={initialRegion}
+                        >
+                        </MapView>
+                    </View>
+                    <View style={styles.detailWrapper}>
+                        <Text>{company}</Text>
+                        <Text>{moment(created_at, "ddd MMM DD hh:mm:ss z YYYY").fromNow()}</Text>
+                    </View>
                 </View>
-                <View style={styles.detailWrapper}>
-                    <Text>{company}</Text>
-                    <Text>{created_at}</Text>
-                </View>
-                <ScrollView>
+                <ScrollView style={{ height: 200 }}>
                     <Text>
                         {description.replace(/(<([^>]+)>)/ig, "")}
                     </Text>
