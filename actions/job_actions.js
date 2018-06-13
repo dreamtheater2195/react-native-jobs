@@ -23,6 +23,7 @@ export const fetchJobs = (region, onSuccess, onError) => async dispatch => {
     try {
         let zip = await reverseGeocode(region);
         const url = buildJobsUrl(zip);
+        console.log(url);
         let { data } = await axios.get(url);
         if (data) {
             dispatch({ type: FETCH_JOBS_SUCCESS, results: data });

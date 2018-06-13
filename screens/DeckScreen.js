@@ -6,6 +6,7 @@ import { MapView } from 'expo';
 import { Card, Button } from 'react-native-elements';
 import * as actions from '../actions';
 class DeckScreen extends Component {
+
     renderCard = (job) => {
         const { title, company, created_at, description } = job;
         const initialRegion = {
