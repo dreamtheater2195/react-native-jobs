@@ -3,7 +3,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
-import store from './store';
+import { store, persistor } from './store';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import AuthScreen from './screens/AuthScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import MapScreen from './screens/MapScreen';
@@ -67,17 +68,10 @@ export default class App extends React.Component {
       });
     return (
       <Provider store={store}>
-        <MainNavigator />
+        <PersistGate loading={null} persistor={persistor}>
+          <MainNavigator />
+        </PersistGate>
       </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
